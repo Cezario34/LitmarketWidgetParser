@@ -15,7 +15,6 @@
     <!-- Фильтры -->
     <form method="get" class="mb-6 flex flex-wrap gap-4 items-end bg-white p-4 rounded-lg shadow-sm">
 
-        <!-- Жанр (выпадающий список) -->
         <div>
             <label class="block text-sm font-medium text-gray-600 mb-1">Жанр</label>
             <select name="genre" class="border border-gray-300 px-3 py-2 rounded-md w-56 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -28,14 +27,12 @@
             </select>
         </div>
 
-        <!-- Дата -->
         <div>
             <label class="block text-sm font-medium text-gray-600 mb-1">Дата</label>
             <input type="date" name="day" value="{{ day or '' }}"
                    class="border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
 
-        <!-- Позиция -->
         <div>
             <label class="block text-sm font-medium text-gray-600 mb-1">Позиция</label>
             <input type="number" name="position" value="{{ position or '' }}" min="1"
@@ -58,8 +55,9 @@
                     <th class="px-4 py-3 font-medium">Автор</th>
                     <th class="px-4 py-3 font-medium">Жанр</th>
                     <th class="px-4 py-3 font-medium text-right">Библиотека</th>
-                    <th class="px-4 py-3 font-medium text-right">Лайки</th>
+                    <th class="px-4 py-3 font-medium text-right">Δ Библиотека</th>
                     <th class="px-4 py-3 font-medium text-right">Просмотры</th>
+                    <th class="px-4 py-3 font-medium text-right">Δ Просмотры</th>
                     <th class="px-4 py-3 font-medium">Обновлено</th>
                 </tr>
             </thead>
@@ -74,16 +72,43 @@
                             {{ book.genre }}
                         </span>
                     </td>
+
+                    <!-- Библиотека -->
                     <td class="px-4 py-3 text-right text-gray-700">{{ book.library }}</td>
-                    <td class="px-4 py-3 text-right text-gray-700">{{ book.likes }}</td>
+
+                    <!-- Δ Библиотека -->
+                    <td class="px-4 py-3 text-right font-medium">
+                        {% if book.library_delta is not none %}
+                            <span class="{% if book.library_delta > 0 %}text-green-600{% elif book.library_delta < 0 %}text-red-600{% else %}text-gray-400{% endif %}">
+                                {% if book.library_delta > 0 %}+{% endif %}{{ book.library_delta }}
+                            </span>
+                        {% else %}
+                            <span class="text-gray-300">—</span>
+                        {% endif %}
+                    </td>
+
+                    <!-- Просмотры -->
                     <td class="px-4 py-3 text-right text-gray-700">{{ book.views }}</td>
+
+                    <!-- Δ Просмотры -->
+                    <td class="px-4 py-3 text-right font-medium">
+                        {% if book.views_delta is not none %}
+                            <span class="{% if book.views_delta > 0 %}text-green-600{% elif book.views_delta < 0 %}text-red-600{% else %}text-gray-400{% endif %}">
+                                {% if book.views_delta > 0 %}+{% endif %}{{ book.views_delta }}
+                            </span>
+                        {% else %}
+                            <span class="text-gray-300">—</span>
+                        {% endif %}
+                    </td>
+
+                    <!-- Дата обновления -->
                     <td class="px-4 py-3 text-gray-500 whitespace-nowrap">
                         {{ book.created_at.strftime('%d.%m.%Y %H:%M') if book.created_at else '—' }}
                     </td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="8" class="px-4 py-12 text-center text-gray-400">
+                    <td colspan="9" class="px-4 py-12 text-center text-gray-400">
                         Нет данных по выбранным фильтрам
                     </td>
                 </tr>

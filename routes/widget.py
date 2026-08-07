@@ -15,6 +15,20 @@ router = APIRouter(
     tags=["parser_widget"],
 )
 
+def parse_views(value: str) -> int:
+    """Превращает '7k', '214k', '1.5m' в число"""
+    if not value:
+        return 0
+    value = value.lower().strip().replace(",", ".")
+    try:
+        if value.endswith("k"):
+            return int(float(value[:-1]) * 1000)
+        if value.endswith("m"):
+            return int(float(value[:-1]) * 1_000_000)
+        return int(float(value))
+    except ValueError:
+        return 0
+
 
 def get_session():
     db = SessionLocal()
@@ -58,6 +72,22 @@ def get_books_page(
 
     result = session.execute(query.limit(100))
     books = result.scalars().all()
+
+    for book in books:
+        prev = session.execute(
+            select(BookPosition)
+            .where(BookPosition.book_title == book.book_title)
+            .where(BookPosition.created_at < book.created_at)
+            .order_by(BookPosition.created_at.desc())
+            .limit(1)
+        ).scalar_one_or_none()
+
+        if prev:
+            book.library_delta = book.library - prev.library
+            book.views_delta = parse_views(book.views) - parse_views(prev.views)
+        else:
+            book.library_delta = None
+            book.views_delta = None
 
     return templates.TemplateResponse(
         request,
