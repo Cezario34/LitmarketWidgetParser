@@ -7,6 +7,9 @@ from sqlalchemy import select, distinct
 
 from database.config import SessionLocal, Base   # ← отсюда
 from utils.db_writer import BookPosition               # когда создашь модель
+from fastapi.responses import RedirectResponse
+from starlette.status import HTTP_303_SEE_OTHER
+
 
 templates = Jinja2Templates(directory="templates")
 
@@ -47,6 +50,8 @@ def get_books_page(
     position: Optional[str] = Query(None),
     session: Session = Depends(get_session),
 ):
+    if not request.session.get("user"):
+        return RedirectResponse("/login", status_code=HTTP_303_SEE_OTHER)
     # Получаем список всех существующих жанров
     genres_result = session.execute(
         select(distinct(BookPosition.genre)).order_by(BookPosition.genre)
