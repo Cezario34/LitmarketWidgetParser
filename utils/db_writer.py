@@ -5,9 +5,8 @@ from typing import Optional
 from sqlalchemy import create_engine, String, Date, Integer, select, DateTime
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, Session
 import logging
+from database.config import engine
 
-DB_FILE = Path('books_tracking.db')
-ENGINE = create_engine(f"sqlite:///{DB_FILE}", echo=False)
 
 class Base(DeclarativeBase):
     pass
@@ -31,7 +30,7 @@ class BookPosition(Base):
     author: Mapped[str] = mapped_column(String(100), nullable=False, index=True)
 
 def init_db(logger: logging.Logger | None = None) -> None:
-    Base.metadata.create_all(ENGINE)
+    Base.metadata.create_all(engine)
     msg = f"Database initialized."
     if logger is not None:
         logger.info(msg)
@@ -63,7 +62,7 @@ def write_to_db(data: dict, genre: str, logger: logging.Logger | None = None) ->
             logger.warning("Нет данных для записи")
         return
 
-    with Session(ENGINE) as session:
+    with Session(engine) as session:
         session.add_all(objects)
         session.commit()
 

@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import headers
+from utils import headers
 
 
 def parse_stats_day_litmarket(base_url) -> dict:
