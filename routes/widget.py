@@ -48,6 +48,7 @@ def get_books_page(
     genre: Optional[str] = Query(None),
     day: Optional[str] = Query(None),
     position: Optional[str] = Query(None),
+    author: Optional[str] = Query(None),
     session: Session = Depends(get_session),
 ):
     if not request.session.get("user"):
@@ -74,6 +75,8 @@ def get_books_page(
         query = query.where(BookPosition.day == day)
     if position_filter:
         query = query.where(BookPosition.position == position)
+    if author:
+        query = query.where(BookPosition.author.ilike(f"%{author}%"))
 
     result = session.execute(query.limit(100))
     books = result.scalars().all()
@@ -103,6 +106,7 @@ def get_books_page(
             "genres": genres,          # ← список жанров
             "genre": genre,
             "day": day,
+            "author": author,
             "position": position,
         }
     )

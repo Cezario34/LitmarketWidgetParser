@@ -15,35 +15,42 @@
     <!-- Фильтры -->
     <form method="get" class="mb-6 flex flex-wrap gap-4 items-end bg-white p-4 rounded-lg shadow-sm">
 
-        <div>
-            <label class="block text-sm font-medium text-gray-600 mb-1">Жанр</label>
-            <select name="genre" class="border border-gray-300 px-3 py-2 rounded-md w-56 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="">Все жанры</option>
-                {% for g in genres %}
-                    <option value="{{ g }}" {% if genre == g %}selected{% endif %}>
-                        {{ g }}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
+    <div>
+        <label class="block text-sm font-medium text-gray-600 mb-1">Жанр</label>
+        <select name="genre" class="border border-gray-300 px-3 py-2 rounded-md w-56 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="">Все жанры</option>
+            {% for g in genres %}
+                <option value="{{ g }}" {% if genre == g %}selected{% endif %}>
+                    {{ g }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
 
-        <div>
-            <label class="block text-sm font-medium text-gray-600 mb-1">Дата</label>
-            <input type="date" name="day" value="{{ day or '' }}"
-                   class="border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
+    <div>
+        <label class="block text-sm font-medium text-gray-600 mb-1">Дата</label>
+        <input type="date" name="day" value="{{ day or '' }}"
+               class="border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
 
-        <div>
-            <label class="block text-sm font-medium text-gray-600 mb-1">Позиция</label>
-            <input type="number" name="position" value="{{ position or '' }}" min="1"
-                   class="border border-gray-300 px-3 py-2 rounded-md w-24 focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
+    <div>
+        <label class="block text-sm font-medium text-gray-600 mb-1">Позиция</label>
+        <input type="number" name="position" value="{{ position or '' }}" min="1"
+               class="border border-gray-300 px-3 py-2 rounded-md w-24 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
 
-        <button type="submit"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md transition">
-            Показать
-        </button>
-    </form>
+    <div>
+        <label class="block text-sm font-medium text-gray-600 mb-1">Автор</label>
+        <input type="text" name="author" value="{{ author or '' }}"
+               placeholder="Имя автора"
+               class="border border-gray-300 px-3 py-2 rounded-md w-48 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <button type="submit"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md transition">
+        Показать
+    </button>
+</form>
 
     <!-- Таблица -->
     <div class="bg-white rounded-lg shadow overflow-hidden">
