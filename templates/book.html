@@ -63,6 +63,9 @@
                     <th class="px-4 py-3 font-medium">Жанр</th>
                     <th class="px-4 py-3 font-medium text-right">Библиотека</th>
                     <th class="px-4 py-3 font-medium text-right">Δ Библиотека</th>
+                    <th class="px-4 py-3 font-medium text-right">Лайки</th>
+                    <th class="px-4 py-3 font-medium text-right">Δ Лайки</th>
+
                     <th class="px-4 py-3 font-medium text-right">Просмотры</th>
                     <th class="px-4 py-3 font-medium text-right">Δ Просмотры</th>
                     <th class="px-4 py-3 font-medium">Обновлено</th>
@@ -88,6 +91,19 @@
                         {% if book.library_delta is not none %}
                             <span class="{% if book.library_delta > 0 %}text-green-600{% elif book.library_delta < 0 %}text-red-600{% else %}text-gray-400{% endif %}">
                                 {% if book.library_delta > 0 %}+{% endif %}{{ book.library_delta }}
+                            </span>
+                        {% else %}
+                            <span class="text-gray-300">—</span>
+                        {% endif %}
+                    </td>
+                                        <!-- Лайки -->
+                    <td class="px-4 py-3 text-right text-gray-700">{{ book.likes }}</td>
+
+                    <!-- Δ Лайки -->
+                    <td class="px-4 py-3 text-right font-medium">
+                        {% if book.likes_delta is not none %}
+                            <span class="{% if book.likes_delta > 0 %}text-green-600{% elif book.likes_delta < 0 %}text-red-600{% else %}text-gray-400{% endif %}">
+                                {% if book.likes_delta > 0 %}+{% endif %}{{ book.likes_delta }}
                             </span>
                         {% else %}
                             <span class="text-gray-300">—</span>

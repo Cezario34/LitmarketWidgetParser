@@ -93,8 +93,10 @@ def get_books_page(
         if prev:
             book.library_delta = book.library - prev.library
             book.views_delta = parse_views(book.views) - parse_views(prev.views)
+            book.likes_delta = book.likes - prev.likes
         else:
             book.library_delta = None
+            book.likes_delta = None
             book.views_delta = None
 
     return templates.TemplateResponse(
