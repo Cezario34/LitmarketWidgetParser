@@ -5,11 +5,7 @@ from typing import Optional
 from sqlalchemy import create_engine, String, Date, Integer, select, DateTime
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, Session
 import logging
-from database.config import engine
-
-
-class Base(DeclarativeBase):
-    pass
+from database.config import engine, Base
 
 
 class BookPosition(Base):

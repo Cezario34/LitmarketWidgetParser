@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from typing import Optional
-from sqlalchemy import select, distinct
+from sqlalchemy import select, distinct, func
 
 from database.config import SessionLocal, Base   # ← отсюда
 from utils.db_writer import BookPosition               # когда создашь модель
@@ -46,6 +46,7 @@ def get_session():
 def get_books_page(
     request: Request,
     genre: Optional[str] = Query(None),
+    book_title: Optional[str] = Query(None),
     day: Optional[str] = Query(None),
     position: Optional[str] = Query(None),
     author: Optional[str] = Query(None),
@@ -69,6 +70,14 @@ def get_books_page(
             BookPosition.position.asc()  # внутри дня — по позиции от 1 и выше
         )
     )
+    query = (
+        select(BookPosition)
+        .order_by(
+            func.strftime('%Y-%m-%d %H', BookPosition.created_at).desc(),
+            # сначала новый час
+            BookPosition.position.asc()  # внутри часа по позиции
+            )
+    )
     if genre:
         query = query.where(BookPosition.genre == genre)
     if day:
@@ -77,6 +86,8 @@ def get_books_page(
         query = query.where(BookPosition.position == position)
     if author:
         query = query.where(BookPosition.author.ilike(f"%{author}%"))
+    if book_title:
+        query = query.where(BookPosition.book_title.ilike(f"%{book_title}%"))
 
     result = session.execute(query.limit(100))
     books = result.scalars().all()
@@ -105,7 +116,8 @@ def get_books_page(
         {
             "request": request,
             "books": books,
-            "genres": genres,          # ← список жанров
+            "genres": genres,
+            "book_title": book_title,
             "genre": genre,
             "day": day,
             "author": author,
