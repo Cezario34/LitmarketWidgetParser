@@ -1,8 +1,6 @@
 from fastapi import FastAPI
-from routes.auth import router as auth_router
-from routes import widget
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
+from app.routes.auth import router as auth_router
+from app.routes import widget
 from starlette.middleware.sessions import SessionMiddleware
 from config import get_settings
 

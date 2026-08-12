@@ -1,6 +1,7 @@
 import time
 
-from utils.db_writer import init_db, write_to_db
+from app.models.bookinfo import init_db
+from app.database.logic import write_to_db
 from logic import parse_stats_day_litmarket
 from logs.logger_config import setup_logging
 import logging

@@ -5,8 +5,8 @@ from sqlalchemy.orm import Session
 from typing import Optional
 from sqlalchemy import select, distinct, func
 
-from database.config import SessionLocal, Base   # ← отсюда
-from utils.db_writer import BookPosition               # когда создашь модель
+from app.database.config import SessionLocal  # ← отсюда
+from app.models.bookinfo import BookPosition               # когда создашь модель
 from fastapi.responses import RedirectResponse
 from starlette.status import HTTP_303_SEE_OTHER
 
