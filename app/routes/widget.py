@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Request, Depends, Query
 from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from typing import Optional
 from sqlalchemy import select, distinct, func
@@ -9,9 +8,7 @@ from app.database.config import SessionLocal  # ← отсюда
 from app.models.bookinfo import BookPosition               # когда создашь модель
 from fastapi.responses import RedirectResponse
 from starlette.status import HTTP_303_SEE_OTHER
-
-
-templates = Jinja2Templates(directory="templates")
+from app.core.template_config import templates
 
 router = APIRouter(
     prefix="/parser_widget",

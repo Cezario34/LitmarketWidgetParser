@@ -1,0 +1,77 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: #e8e8e8;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 680px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: #a0a0b0;
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+}
+
+textarea {
+    width: 100%;
+    height: 260px;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(0, 0, 0, 0.25);
+    color: #f0f0f0;
+    font-size: 1rem;
+    line-height: 1.5;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+textarea:focus {
+    border-color: #7c3aed;
+}
+
+.counter {
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.05rem;
+}
+
+.counter-label {
+    color: #a0a0b0;
+}
+
+.counter-value {
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: #a78bfa;
+    min-width: 60px;
+    text-align: right;
+}
